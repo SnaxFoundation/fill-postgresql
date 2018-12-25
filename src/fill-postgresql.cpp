@@ -2,7 +2,7 @@
 
 // todo: transaction order within blocks. affects wasm-ql
 
-#include "abieos.hpp"
+#include "abisnax.hpp"
 
 #include <boost/asio/connect.hpp>
 #include <boost/asio/ip/tcp.hpp>
@@ -21,7 +21,7 @@
 #include <string>
 #include <string_view>
 
-using namespace abieos;
+using namespace abisnax;
 using namespace std::literals;
 
 using std::cerr;
@@ -462,15 +462,15 @@ struct recurse_action_trace;
 struct action_trace {
     variant_header_zero                dummy;
     variant_header_zero                receipt_dummy;
-    abieos::name                       receipt_receiver;
+    abisnax::name                       receipt_receiver;
     checksum256                        receipt_act_digest;
     uint64_t                           receipt_global_sequence;
     uint64_t                           receipt_recv_sequence;
     vector<action_trace_auth_sequence> receipt_auth_sequence;
     varuint32                          receipt_code_sequence;
     varuint32                          receipt_abi_sequence;
-    abieos::name                       account;
-    abieos::name                       name;
+    abisnax::name                       account;
+    abisnax::name                       name;
     vector<action_trace_authorization> authorization;
     input_buffer                       data;
     bool                               context_free;
@@ -1385,8 +1385,8 @@ int main(int argc, char** argv) {
         bpo::options_description desc{"Options"};
         auto                     op = desc.add_options();
         op("help,h", "Help screen");
-        op("host,H", bpo::value<string>()->default_value("localhost"), "Host to connect to (nodeos)");
-        op("port,p", bpo::value<string>()->default_value("8080"), "Port to connect to (nodeos state-history plugin)");
+        op("host,H", bpo::value<string>()->default_value("localhost"), "Host to connect to (snaxnode)");
+        op("port,p", bpo::value<string>()->default_value("8080"), "Port to connect to (snaxnode state-history plugin)");
         op("schema,s", bpo::value<string>()->default_value("chain"), "Database schema");
         op("skip-to,k", bpo::value<uint32_t>(), "Skip blocks before [arg]");
         op("stop,x", bpo::value<uint32_t>(), "Stop before block [arg]");

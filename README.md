@@ -12,7 +12,7 @@ When running it for the first time, use the `--create` option to create the sche
 
 To wipe the schema and start over, run with `--drop --create`.
 
-fill-postgresql will start filling the database. It will track real-time updates from nodeos after it catches up.
+fill-postgresql will start filling the database. It will track real-time updates from snaxnode after it catches up.
 
 ## Stopping
 
@@ -45,7 +45,7 @@ Run the following on a fresh Ubuntu 18.10 image:
 sudo apt update
 sudo apt upgrade
 sudo apt install build-essential cmake libboost-all-dev git libpq-dev libpqxx-dev
-git clone git@github.com:EOSIO/fill-postgresql.git
+git clone git@github.com:SNAX/fill-postgresql.git
 cd fill-postgresql
 git submodule update --init --recursive
 mkdir build
@@ -55,11 +55,11 @@ make -j
 ```
 
 
-## Nodeos configuration
+## Nodsnax configuration
 
 | Option                                    | When to use |
 |-------------------------------------------|-------------|
-| `--plugin eosio::state_history_plugin`    | always |
+| `--plugin snax::state_history_plugin`    | always |
 | `--state-history-endpoint`                | optional; defaults to 0.0.0.0:8080 |
 | `--trace-history`                         | optional; enable to collect transaction and action traces |
 | `--chain-state-history`                   | optional; enable to collect state (tables) |

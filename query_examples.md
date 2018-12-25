@@ -145,7 +145,7 @@ limit
   100;
 ```
 
-## Get the 100 most-recent `eosio.token` transfers
+## Get the 100 most-recent `snax.token` transfers
 
 todo: add new column to fill-postgresql implementation to identify order of transactions within blocks. Adjust this query.
 
@@ -155,8 +155,8 @@ select
 from 
   chain.action_trace 
 where 
-  receipt_receiver = 'eosio.token' 
-  and account = 'eosio.token' 
+  receipt_receiver = 'snax.token' 
+  and account = 'snax.token' 
   and name = 'transfer' 
   and transaction_status = 'executed' 
 order by 
@@ -165,7 +165,7 @@ limit
   100;
 ```
 
-## Get the 100 most-recent `eosio.token` transfer notifications sent to `eosio.ramfee`
+## Get the 100 most-recent `snax.token` transfer notifications sent to `snax.ramfee`
 
 todo: add new column to fill-postgresql implementation to identify order of transactions within blocks. Adjust this query.
 
@@ -175,8 +175,8 @@ select
 from 
   chain.action_trace 
 where 
-  receipt_receiver = 'eosio.ramfee' 
-  and account = 'eosio.token' 
+  receipt_receiver = 'snax.ramfee' 
+  and account = 'snax.token' 
   and name = 'transfer' 
   and transaction_status = 'executed' 
 order by 
@@ -185,7 +185,7 @@ limit
   100;
 ```
 
-## Get the 100 most-recent actions authorized by `eosio`
+## Get the 100 most-recent actions authorized by `snax`
 
 todo: add new column to fill-postgresql implementation to identify order of transactions within blocks. Adjust this query.
 
@@ -198,7 +198,7 @@ from
     on transaction_trace.block_index = action_trace_authorization.block_index 
     and transaction_trace.transaction_id = action_trace_authorization.transaction_id 
 where 
-  actor = 'eosio' 
+  actor = 'snax' 
 order by 
   transaction_trace.block_index desc 
 limit 
@@ -207,9 +207,9 @@ limit
 
 # State History
 
-## Get the 100 most-recent `eosio.ramfee` balance values
+## Get the 100 most-recent `snax.ramfee` balance values
 
-`primary_key=5459781` limits result to the `EOS` token
+`primary_key=5459781` limits result to the `SNAX` token
 
 ```sql
 select 
@@ -218,8 +218,8 @@ select
 from 
   chain.contract_row 
 where 
-  code = 'eosio.token' 
-  and scope = 'eosio.ramfee' 
+  code = 'snax.token' 
+  and scope = 'snax.ramfee' 
   and "table" = 'accounts' 
   and primary_key = 5459781 
 order by 
@@ -228,7 +228,7 @@ limit
   100;
 ```
 
-## <a name="mo-simple"></a> Balance (EOS) of all accounts beginning with "mo", as of block 20500000 ("distinct on" method)
+## <a name="mo-simple"></a> Balance (SNAX) of all accounts beginning with "mo", as of block 20500000 ("distinct on" method)
 
 Use this index to speed up this query:
 
@@ -245,7 +245,7 @@ from
     chain.contract_row
 where
     block_index <= 20500000
-    and code='eosio.token'
+    and code='snax.token'
     and "table"='accounts'
     and scope>='mo'
     and scope<='mozzzzzzzzzz'
@@ -262,7 +262,7 @@ desc;
 
 `distinct on` only includes the first row in each set of rows with duplicate fields. The `order by` clause includes `block_index, present` in descending order to make sure the most-recent state is the one included.
 
-## Balance (EOS) of all accounts beginning with "mo", as of block 20500000 (nested query method)
+## Balance (SNAX) of all accounts beginning with "mo", as of block 20500000 (nested query method)
 
 Use this index to speed up this query:
 
@@ -296,7 +296,7 @@ join chain.contract_row
     and subquery."table" = contract_row."table"
     and subquery.primary_key = contract_row.primary_key
 where
-    subquery.code='eosio.token'
+    subquery.code='snax.token'
     and subquery."table"='accounts'
     and subquery.scope>='mo'
     and subquery.scope<='mozzzzzzzzzz'
@@ -314,9 +314,9 @@ select
 from
     chain.contract_row
 where
-    code='eosio.token'
+    code='snax.token'
     and "table"='accounts'
-    and scope='eosio'
+    and scope='snax'
     and primary_key = 5459781
     and block_index>=9378 and block_index<=200000
 order by
@@ -326,11 +326,11 @@ order by
 ```
  block_index | present |    code     | scope |  table   | primary_key |    payer     |               value                | conditional_asset_bin_to_str
 -------------+---------+-------------+-------+----------+-------------+--------------+------------------------------------+------------------------------
-        9378 | t       | eosio.token | eosio | accounts |     5459781 | eosio        | \xf0daa2a80700000004454f5300000000 | 3.2894 EOS
-       11975 | t       | eosio.token | eosio | accounts |     5459781 | eosio        | \x7940aeaf0700000004454f5300000000 | 3.3012 EOS
-       13076 | f       | eosio.token | eosio | accounts |     5459781 | eosio        | \x7940aeaf0700000004454f5300000000 |
-      169740 | t       | eosio.token | eosio | accounts |     5459781 | hezdimjxgyge | \x0a0000000000000004454f5300000000 | 0.0010 EOS
-      171012 | t       | eosio.token | eosio | accounts |     5459781 | hezdimjxgyge | \x0b0000000000000004454f5300000000 | 0.0011 EOS
+        9378 | t       | snax.token | snax | accounts |     5459781 | snax        | \xf0daa2a80700000004454f5300000000 | 3.2894 SNAX
+       11975 | t       | snax.token | snax | accounts |     5459781 | snax        | \x7940aeaf0700000004454f5300000000 | 3.3012 SNAX
+       13076 | f       | snax.token | snax | accounts |     5459781 | snax        | \x7940aeaf0700000004454f5300000000 |
+      169740 | t       | snax.token | snax | accounts |     5459781 | hezdimjxgyge | \x0a0000000000000004454f5300000000 | 0.0010 SNAX
+      171012 | t       | snax.token | snax | accounts |     5459781 | hezdimjxgyge | \x0b0000000000000004454f5300000000 | 0.0011 SNAX
 ```
 
 `block_index` identifies a block where the row changed. `present` is `f` if the row was removed at that block.
@@ -348,9 +348,9 @@ select
 from
     chain.contract_row
 where
-    code='eosio.token'
+    code='snax.token'
     and "table"='accounts'
-    and scope='eosio'
+    and scope='snax'
     and primary_key = 5459781
     and block_index <= 200000
 group by
@@ -360,7 +360,7 @@ group by
 ```
  block_index | present |    code     |  table   | scope | primary_key
 -------------+---------+-------------+----------+-------+-------------
-      171012 | t       | eosio.token | accounts | eosio |     5459781
+      171012 | t       | snax.token | accounts | snax |     5459781
 ```
 
 Since we're using `group by`, we can only select columns which appear in the `group by` clause. We can also select aggregation functions, such as `max`. The `max` for computing `present` treats it as a compound key. This handles the case where a single block removed then added a row; we want the added row in this case. To get the remaining fields, turn the above query into a subquery, join it with the original table, and move most of the `where` clause to the outer query.
@@ -391,14 +391,14 @@ join chain.contract_row
     and subquery."table" = contract_row."table"
     and subquery.primary_key = contract_row.primary_key
 where
-    subquery.code='eosio.token'
+    subquery.code='snax.token'
     and subquery."table"='accounts'
-    and subquery.scope='eosio'
+    and subquery.scope='snax'
     and subquery.primary_key = 5459781;
 ```
 
 ```
  block_index | present |    code     | scope |  table   | primary_key |    payer     |               value                | conditional_asset_bin_to_str
 -------------+---------+-------------+-------+----------+-------------+--------------+------------------------------------+------------------------------
-      171012 | t       | eosio.token | eosio | accounts |     5459781 | hezdimjxgyge | \x0b0000000000000004454f5300000000 | 0.0011 EOS
+      171012 | t       | snax.token | snax | accounts |     5459781 | hezdimjxgyge | \x0b0000000000000004454f5300000000 | 0.0011 SNAX
 ```
