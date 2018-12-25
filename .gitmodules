@@ -1,0 +1,3 @@
+[submodule "external/abisnax"]
+	path = external/abisnax
+	url = https://github.com/SnaxFoundation/abisnax.git
